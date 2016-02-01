@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Text Classification Preprocessing
 """
 
@@ -12,11 +10,10 @@ import re
 
 def line_to_words(line, dataset):
     # Different preprocessing is used for these datasets.
-    if dataset not in ['SST1', 'SST2']:
+    if dataset in ['SST1', 'SST2']:
         clean_line = clean_str_sst(line.strip())
     else:
         clean_line = clean_str(line.strip())
-    clean_line = clean_str_sst(line.strip())
     words = clean_line.split(' ')
     words = words[1:]
     return words
@@ -109,7 +106,7 @@ FILE_PATHS = {"SST1": ("data/stsa.fine.phrases.train",
                        "data/TREC.test.all"),
               "SUBJ": ("data/subj.all", None, None),
               "MPQA": ("data/mpqa.all", None, None)}
-args = {}
+
 
 
 def main(arguments):
@@ -124,7 +121,7 @@ def main(arguments):
     train, valid, test = FILE_PATHS[dataset]
 
     # Features are just the words.
-    max_sent_len, word_to_idx = get_vocab([train, valid, test])
+    max_sent_len, word_to_idx = get_vocab([train, valid, test], dataset)
 
     # Dataset name
     train_input, train_output = convert_data(train, word_to_idx, max_sent_len,
@@ -143,7 +140,6 @@ def main(arguments):
 
     filename = args.dataset + '.hdf5'
     with h5py.File(filename, "w") as f:
-        print(valid_output.shape)
         f['train_input'] = train_input
         f['train_output'] = train_output
         if valid:
@@ -154,6 +150,9 @@ def main(arguments):
         f['nfeatures'] = np.array([V], dtype=np.int32)
         f['nclasses'] = np.array([C], dtype=np.int32)
 
-
+"""
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
+"""
+args = {"SST1"}
+main(args)
