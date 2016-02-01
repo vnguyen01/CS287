@@ -26,4 +26,3 @@ function main()
    -- Test.
 end
 
-main()
