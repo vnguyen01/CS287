@@ -150,9 +150,8 @@ def main(arguments):
         f['nfeatures'] = np.array([V], dtype=np.int32)
         f['nclasses'] = np.array([C], dtype=np.int32)
 
-"""
+args = {}
+
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
-"""
-args = {"SST1"}
-main(args)
+    main(args)
