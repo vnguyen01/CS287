@@ -120,12 +120,17 @@ def main(arguments):
     dataset = args.dataset
     train, valid, test = FILE_PATHS[dataset]
 
+    
+
     # Features are just the words.
     max_sent_len, word_to_idx = get_vocab([train, valid, test], dataset)
 
     # Dataset name
     train_input, train_output = convert_data(train, word_to_idx, max_sent_len,
                                              dataset)
+    print train_input.shape
+    print train_output.shape
+
     if valid:
         valid_input, valid_output = convert_data(valid, word_to_idx, max_sent_len,
                                                  dataset)
