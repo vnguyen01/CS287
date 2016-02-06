@@ -59,9 +59,9 @@ def convert_data(data_name, word_to_idx, max_sent_len, dataset, start_padding=0)
             sent = list(set(sent))
             # end padding
             if len(sent) < max_sent_len + start_padding:
-                sent.extend([1] * (max_sent_len + start_padding - len(sent)))
+                sent.extend([0] * (max_sent_len + start_padding - len(sent)))
             # start padding
-            sent = [1]*start_padding + sent
+            sent = [0]*start_padding + sent
             features.append(sent)
             lbl.append(y)
     return np.array(features, dtype=np.int32), np.array(lbl, dtype=np.int32)
