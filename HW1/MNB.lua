@@ -1,7 +1,7 @@
 require "hdf5"
 
 --converts our sparse matrix format to doc by feature matrix
---feature weighting: word counts
+--feature weight: counts
 function createDocWordMatrix(vocab, max_sent_len, sparseMatrix)
     docword = torch.zeros(sparseMatrix:size(1), vocab)
     for i=1,sparseMatrix:size(1) do
@@ -22,6 +22,15 @@ function onehotencode(classes, target)
         onehot[i][target[i]] = 1
     end
     return onehot
+end
+
+function write2file(fname, pred) 
+    f = io.open(fname, "w")
+    f:write("ID,Category\n")
+    for i=1,pred:size(1) do
+        f:write(tostring(i) .. "," .. tostring(pred[i][1]) .. "\n")
+    end
+    f:close()
 end
 
 --MNB fit to train
@@ -47,12 +56,13 @@ function fit(X,Y)
     --local total = cc:sum(2)
     --cc:div(total[1][1])
     --cc:log()
+    
+    --this is just a dumb prior but works better than above?!
     clp:csub(math.log(Y:size(2)))
     
     return fc:csub(scc), clp --:csub(math.log(Y:size(2)))
 end
 
---MNB predict on test or valid
 function predict(X, W, b)
     --joint log-likelihood
     local jll = ((X*W:t()):csub(b:expand(b,X:size(1),b:size(2))))
@@ -61,7 +71,7 @@ end
 
 function predict_score(ypred, ytrue)
     local c = 0
-    for i=1,pred:size(1) do
+    for i=1,ypred:size(1) do
         if ypred[i][1] == ytrue[i][1] then
             c = c + 1       
         end
@@ -80,28 +90,22 @@ nfeatures = f:read('nfeatures'):all():long()[1]
 f:close()
 
 --for final testing ONLY!
+--remember to also change var names when creating docword matrix
 --X_train = torch.cat(X_train, X_valid, 1)
 --Y_train = torch.cat(Y_train, Y_valid, 1)
 
 X_train = createDocWordMatrix(nfeatures, 53, X_train)
 Y_train = onehotencode(nclasses, Y_train)
-X_test = createDocWordMatrix(nfeatures, 53, X_test)
-Y_test = onehotencode(nclasses, Y_test)
+X_test = createDocWordMatrix(nfeatures, 53, X_valid)
+Y_test = onehotencode(nclasses, Y_valid)
 
-lp, clp = counts(X_train, Y_train)
+--fit MNB
+lp, clp = fit(X_train, Y_train)
 Y_pred = predict(X_test, lp, clp)
 _, Y_pred = torch.max(Y_pred, 2)
 _,Y_true = torch.max(Y_test, 2)
 acc_score = predict_score(Y_pred, Y_true)
 print(acc_score)
-
-f = io.open("MNB_3.csv", "w")
-f:write("ID,Category\n")
-for i=1,Y_pred:size(1) do
-    f:write(tostring(i) .. "," .. tostring(Y_pred[i][1]) .. "\n")
-end
-f:close()
-
 
 
 
