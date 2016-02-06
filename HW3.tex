@@ -1,0 +1,274 @@
+\documentclass[11pt]{article}
+\usepackage{writeup/common}
+\usepackage{url}
+\usepackage{listings}
+
+\title{CS 287 \\ Assignment 2: Neural Language Modeling }
+\date{}
+\begin{document}
+
+\maketitle{}
+
+\begin{center}
+  \textbf{Due:} Monday, March 7th, 11:59 pm 
+\end{center}
+
+
+This assignment focuses on language modeling. 
+ we will be implementing several different 
+language models. \cite{DBLP:journals/jmlr/BengioDVJ03}
+
+%  influential neural network model
+% for part-of-speech tagging, based on the paper \textit{NLP (Almost)
+%   from Scratch} \citep{collobert2011natural}. The goal of this
+% homework assignment is to replicate the central model from this
+% work. At the end of this assignment, you will have created your own
+% state-of-the-art part-of-speech tagger, and built a framework that can
+% be used easily for many other NLP tasks.
+
+
+As you complete this assignment, we ask that you submit your results
+on the test data to the Kaggle competition website at
+\url{https://inclass.kaggle.com/c/cs287-hw3} and that you compile your
+experiences in a write-up based on the template at
+\url{https://github.com/cs287/hw_template}.
+
+\section{Data and Preprocessing}
+
+\subsection{Data}
+
+The main data for this task is in the \texttt{data/} directory. Here
+is the first few sentences of validation. Each line of the file
+contains one tokenized sentence.
+
+\lstset{breaklines=true}
+\begin{lstlisting}
+> head data/valid.txt 
+ consumers may want to move their telephones a little closer to the tv set 
+ <unk> <unk> watching abc 's monday night football can now vote during <unk> for the greatest play in N years from among four or five <unk> <unk> 
+ two weeks ago viewers of several nbc <unk> consumer segments started calling a N number for advice on various <unk> issues 
+ and the new syndicated reality show hard copy records viewers ' opinions for possible airing on the next day 's show 
+ interactive telephone technology has taken a new leap in <unk> and television programmers are racing to exploit the possibilities 
+ eventually viewers may grow <unk> with the technology and <unk> the cost 
+ but right now programmers are figuring that viewers who are busy dialing up a range of services may put down their <unk> control <unk> and stay <unk> 
+
+\end{lstlisting}
+
+In addition to we have also included a set of data with a smaller vocabulary (which 
+will be much faster to train on). This data is in \texttt{train.smallvocab.txt}. 
+These sentences are identical, but have many more word types replaced with UNK.
+
+We also include dictionary files, 
+
+\begin{verbatim}
+> head  data/words.1000.dict 
+\end{verbatim}
+
+This is a mapping from each word in the Penn Treebank to
+a unique ID. It is important that you use this mapping since it 
+is used for the Kaggle competition data. 
+
+\subsection{Preprocessing}
+
+For this assignment you will write your own preprocessing code
+in \texttt{preprocessing.py}. This code should transform the
+data representations given above into a format for multiclass
+prediction. In particular you will be responsible for,
+
+\begin{itemize}
+\item Mapping the words in the data set to indexes.
+\item Pre-construct the n-gram windows before word.
+\end{itemize}
+
+Your preprocessing code should include an argument for the size of 
+the n-gram that is used.
+
+\textbf{Important note:} the boundary cases for language modeling are
+a bit tricky. For each sentence, you must predict the end-of-sentence
+token represented as "\texttt{</s>}". Conversely you do not predict the
+start-of-sentence token "<s>" but you do condition on it when
+predicting words at the beginning of the sentence. Therefore the
+number of words predicted is size of words in the file + number of
+sentences (one \texttt{</s>} for each sentence).
+
+
+For the test set, we have blanked out one word in every sentence,
+instead writing \texttt{\_\#\_} where \# is the example number .  The
+evaluation, discussed below, will be to give the full distribution
+over this missing word. Therefore when constructing your \texttt{test\_input}
+you should only output the context for these examples.
+
+\begin{quote}
+  train\_input, train\_output,
+  valid\_input,
+  valid\_output
+  test\_input, nwords
+\end{quote}
+
+\section{Code Setup}
+
+Write your main code in \texttt{HW3.lua}. For this assignment part,
+you can (and should) use the \texttt{nn} library in addition to the
+standard Torch library. 
+
+\subsection{Prediction and Evaluation}
+
+Be sure you are able to read and output the text data and that you
+understand the format.  Also be sure you are able output your
+classification results on the test data as a text file. Check that you
+can upload these to the Kaggle. 
+
+The Kaggle submission for this assignment takes on a more complicated form. 
+For each position in the test data, we would like you to output a complete 
+distribution over possible words.
+
+For instance the first blank in test is 
+
+\begin{verbatim}
+ no it was n't \_1\_ monday 
+\end{verbatim}
+
+In your output file you should give the full distribution $p(w_5 | w_1, \ldots, w_4)$.
+
+\begin{verbatim}
+ID,Class1,Class2,Class3,...
+1,0.2,0.001,0.0012,...
+\end{verbatim}
+
+Here Class1 refers to the first word in \texttt{words.dict}, Class2 to the second, etc.
+
+\subsection{Hyperparameters}
+
+Several of the models described have explicit hyperparameters that you will 
+need to tune. It is your responsibility to cleanly separate these out from 
+the models themselves and expose as command-line options. This makes it much 
+easier to run experiments and to utilize experimental scripts. 
+
+\subsection{Logging and Reporting}
+
+As part of the write-up, you will need to report on the training and
+predictive accuracy of your models. To make this possible, your code
+should report on various metrics of the model both at training and
+test time. We will leave it up to you on which metrics to log, but we
+recommend reporting training speed, training set NLL, training set
+predictive accuracy, and validation predictive accuracy. It is your
+responsibility to convince us that the model is correctly training.
+
+\section{Models}
+
+For this assignment you will implement the three models. We will warm
+up with a simple count-based language model, then we will add
+smoothing, and finally we will move on to the full neural network
+model from \citet{bengio} and finally implement HSM training.
+
+\subsection{Count-Based Language Model}
+
+To start, modify your code from HW1 to implement a simple of
+n-gram multinomial estimate of $p(w_i | w_{i-n}, \ldots w_{i-1})$. 
+Use three different strategies to estimate this distribution,
+
+\begin{enumerate}
+\item Simple maximum likelihood estimation. 
+\item Estimation with Laplace smoothing $\alpha$.
+\item Estimation with Kneser-Ney smoothing \cite{}. 
+\end{enumerate}
+
+Use this distribution to calculate the perplexity of the development
+set with n-grams 2, 3, and 4.
+
+
+The formula for Kneser-Ney Smoothing is: 
+
+\subsection{Neural Network Language Models (NNLMs)}
+
+To compare, we will also implement a neural network language model for
+this problem. Unfortunately when using a CPU it is too inefficient to
+train on this full data set. The issue comes from the partition
+function, which requires $O(|\mcV|)$ time to compute each step. To
+avoid this issue, we have provided a reduced vocabulary data set
+\texttt{data/train.1000.txt} to start with. In the next section we 
+will get to the full data set.
+
+Note the following correspondences,
+
+\begin{center}
+  \begin{tabular}{ll}
+    \toprule
+    Math & Torch \\
+    \midrule 
+    sparse $\boldx \boldW$ & nn.LookupTable \\ 
+    $\log \mathrm{softmax}$ & nn.LogSoftMax \\ 
+    $\tanh $ & nn.TanH \\ 
+    $L_{cross-entropy}()$ & nn.ClassNLL \\ 
+    dense $\boldx \boldW + \boldb$ & nn.Linear \\ 
+    \bottomrule
+  \end{tabular}
+\end{center}
+The documentation (\url{https://github.com/torch/nn}) is quite good
+for all of these models (although it is possible the notation may be
+slightly different than class).
+
+The training and evaluation code for the model takes a similar form to
+HW2. Similar tips apply here .
+ 
+ \begin{itemize}
+ \item Train using minibatches (we used size 32). This will significantly speed up training. 
+ \item Keep track of the average loss as you train. 
+ \item Run on the development set each iteration to see the progress of the model.
+ \item You should not have to run for more than 20 epochs on this data. If you are seeing large 
+   changes beyond that, you may have an issue. 
+ \item One simple way of regularizing language models is to
+   renormalize the word embeddings to have a max $\ell2$ norm of 1
+   after each epoch. We recommend this technique instead of other
+   types of regularization.
+ \end{itemize}
+
+\subsection{Neural Network Model with Noise Constrastive Estimation}
+
+Noise constrastive estimation.
+
+\subsection{Word Embeddings}
+
+Once you have trained your model, you can examine the word embeddings that the model 
+produces by exporting the parameters of your \texttt{nn.LookupTable}. Write out these 
+parameters to HDF5 and load them into back into Python. There are several interesting 
+experiments that are often run on these embeddings. We ask that you demonstrate the 
+correctness of your approach with some of these methods.
+
+\begin{itemize}
+\item For a subset of words compute the k-nearest neighbors under dot-product and
+  cosine similarity. What does this show? How do the metrics differ?
+\item Graph a subset of the word vectors by projecting to 2-dimensions.  The simplest method is to use PCA, but there are a number of other techniques. Scikit-Learn has a number of 
+  methods for doing this which you can explore through the tutorial at \url{http://scikit-learn.org/stable/auto_examples/manifold/plot_lle_digits.html}.
+\end{itemize}
+
+\subsection{Additional Experiments}
+
+Once these models are constructed, you should also report on
+additional experiments on these data sets. We will leave this aspect
+open-ended, but suggestion include:
+
+\begin{itemize}
+\item Including additional features in the model. For instance, capitalization or suffixes.
+\item Experimenting with different architectures (Replicate the different setups in \cite{}).
+\item Modern language modeling experiments are often run on a GPU, an
+  architecture particularly well-suited for computing large partition
+  functions. If you have access to a NVidia GPU, we encourage you to
+  tree these experiments. Follow the instructions on the Torch website for running on this 
+  system. It is usually as easy as calling :cuda on your model.
+\end{itemize}
+
+\section{Report and Submission}
+
+For your write-up, follow the report template at
+\url{https://github.com/cs287/hw_template}. Be sure to include a link
+to your code, Kaggle ID, and reports on your results.
+
+In addition to submitting your Kaggle results, we also expect you to report on your 
+experimental process. This should include data tables, graphs and discussion of any 
+issues that you may run into. 
+
+\bibliographystyle{apalike} 
+\bibliography{HW3}
+
+\end{document}
