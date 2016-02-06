@@ -91,13 +91,14 @@ Y_test = onehotencode(nclasses, Y_test)
 lp, clp = counts(X_train, Y_train)
 Y_pred = predict(X_test, lp, clp)
 _, Y_pred = torch.max(Y_pred, 2)
-acc_score = predict_score(Y_pred, Y_test)
+_,Y_true = torch.max(Y_test, 2)
+acc_score = predict_score(Y_pred, Y_true)
 print(acc_score)
 
 f = io.open("MNB_3.csv", "w")
 f:write("ID,Category\n")
-for i=1,indices_pred:size(1) do
-    f:write(tostring(i) .. "," .. tostring(indices_pred[i][1]) .. "\n")
+for i=1,Y_pred:size(1) do
+    f:write(tostring(i) .. "," .. tostring(Y_pred[i][1]) .. "\n")
 end
 f:close()
 
