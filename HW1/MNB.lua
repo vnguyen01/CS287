@@ -94,6 +94,13 @@ _, Y_pred = torch.max(Y_pred, 2)
 acc_score = predict_score(Y_pred, Y_test)
 print(acc_score)
 
+f = io.open("MNB_3.csv", "w")
+f:write("ID,Category\n")
+for i=1,indices_pred:size(1) do
+    f:write(tostring(i) .. "," .. tostring(indices_pred[i][1]) .. "\n")
+end
+f:close()
+
 
 
 
