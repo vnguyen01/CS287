@@ -59,14 +59,14 @@ function predict(X, W, b)
     return jll
 end
 
-function predict_score(pred, true)
+function predict_score(ypred, ytrue)
     local c = 0
     for i=1,pred:size(1) do
-        if pred[i][1] == true[i][1] then
+        if ypred[i][1] == ytrue[i][1] then
             c = c + 1       
         end
     end
-    return c/pred:size(1)
+    return c/ypred:size(1)
 end
 
 f = hdf5.open("SST1.hdf5", "r")
