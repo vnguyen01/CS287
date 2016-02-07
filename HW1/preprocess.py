@@ -30,7 +30,7 @@ def get_vocab(file_list, dataset=''):
     max_sent_len = 0
     word_to_idx = {}
     # Start at 2 (1 is padding)
-    idx = 2
+    idx = 1
     for filename in file_list:
         if filename:
             with codecs.open(filename, "r", encoding="latin-1") as f:
