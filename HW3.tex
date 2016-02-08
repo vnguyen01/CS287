@@ -3,7 +3,7 @@
 \usepackage{url}
 \usepackage{listings}
 
-\title{CS 287 \\ Assignment 2: Neural Language Modeling }
+\title{CS 287 \\ Assignment 3: (Neural) Language Modeling }
 \date{}
 \begin{document}
 
@@ -14,17 +14,13 @@
 \end{center}
 
 
-This assignment focuses on language modeling. 
- we will be implementing several different 
-language models. \cite{DBLP:journals/jmlr/BengioDVJ03}
-
-%  influential neural network model
-% for part-of-speech tagging, based on the paper \textit{NLP (Almost)
-%   from Scratch} \citep{collobert2011natural}. The goal of this
-% homework assignment is to replicate the central model from this
-% work. At the end of this assignment, you will have created your own
-% state-of-the-art part-of-speech tagger, and built a framework that can
-% be used easily for many other NLP tasks.
+This assignment focuses on the task of language modeling, a crucial
+first-step for many natural language applications. In this assignment you
+will implement several count-based multinomial language models, an
+influential neural network based language model from the work of
+\citet{DBLP:journals/jmlr/BengioDVJ03}, and an extension to this
+language model noise contrastive estimation which we discussed in
+class.
 
 
 As you complete this assignment, we ask that you submit your results
@@ -41,7 +37,8 @@ The main data for this task is in the \texttt{data/} directory. Here
 is the first few sentences of validation. Each line of the file
 contains one tokenized sentence.
 
-\lstset{breaklines=true}
+\lstset{ basicstyle=\ttfamily, breaklines=true}
+
 \begin{lstlisting}
 > head data/valid.txt 
  consumers may want to move their telephones a little closer to the tv set 
@@ -55,7 +52,7 @@ contains one tokenized sentence.
 \end{lstlisting}
 
 In addition to we have also included a set of data with a smaller vocabulary (which 
-will be much faster to train on). This data is in \texttt{train.smallvocab.txt}. 
+will be much faster to train on). This data is in \texttt{train.1000.txt}. 
 These sentences are identical, but have many more word types replaced with UNK.
 
 We also include dictionary files, 
@@ -86,7 +83,7 @@ the n-gram that is used.
 \textbf{Important note:} the boundary cases for language modeling are
 a bit tricky. For each sentence, you must predict the end-of-sentence
 token represented as "\texttt{</s>}". Conversely you do not predict the
-start-of-sentence token "<s>" but you do condition on it when
+start-of-sentence token "\texttt{<s>}" but you do condition on it when
 predicting words at the beginning of the sentence. Therefore the
 number of words predicted is size of words in the file + number of
 sentences (one \texttt{</s>} for each sentence).
@@ -120,22 +117,31 @@ can upload these to the Kaggle.
 
 The Kaggle submission for this assignment takes on a more complicated form. 
 For each position in the test data, we would like you to output a complete 
-distribution over possible words.
+distribution over a given set of words.
 
-For instance the first blank in test is 
+For instance the first challenges is given the context C, give the distribution
+over the words listed above. 
 
-\begin{verbatim}
- no it was n't \_1\_ monday 
-\end{verbatim}
+\begin{lstlisting}
+Q my outright recovery operations grew combustion enthusiastic deadly california breathing broadcasters unable tenders practical jacob lying premiere longer vermont-slauson seemingly tumbled shipment monday expenditure s miners multiples art combat increasingly kasparov lab questionable bold promotion regularly texans eighth gaf sinking N of excitement window municipalities poverty soliciting pressure neighboring accommodate
+C no it was n't black _1_
+\end{lstlisting}
 
-In your output file you should give the full distribution $p(w_5 | w_1, \ldots, w_4)$.
+In your output file you should give the distribution $p(w_6 | w_1, \ldots, w_5)$ renormalized
+over the 50 word candidate set given above. It will look something like this.
 
 \begin{verbatim}
 ID,Class1,Class2,Class3,...
 1,0.2,0.001,0.0012,...
 \end{verbatim}
 
-Here Class1 refers to the first word in \texttt{words.dict}, Class2 to the second, etc.
+\noindent Here \texttt{Class1} refers to the first word in \texttt{words.dict}, \texttt{Class2} to the second, etc.
+
+Worst-case if you are not able to scale the full language model, you
+can still submit to Kaggle using reduced vocabulary training. If you do this, 
+describe the method you use for handling words in the candidate set that are 
+outside of your vocabulary.
+
 
 \subsection{Hyperparameters}
 
@@ -159,25 +165,24 @@ responsibility to convince us that the model is correctly training.
 For this assignment you will implement the three models. We will warm
 up with a simple count-based language model, then we will add
 smoothing, and finally we will move on to the full neural network
-model from \citet{bengio} and finally implement HSM training.
+model from \citet{DBLP:journals/jmlr/BengioDVJ03} and finally implement noise contrastive estimation \citep{gutmann2010noise}.
 
 \subsection{Count-Based Language Model}
 
 To start, modify your code from HW1 to implement a simple of
-n-gram multinomial estimate of $p(w_i | w_{i-n}, \ldots w_{i-1})$. 
+n-gram multinomial estimate of $p(w_i | w_{i-n+1}, \ldots w_{i-1})$. 
 Use three different strategies to estimate this distribution,
 
 \begin{enumerate}
 \item Simple maximum likelihood estimation. 
-\item Estimation with Laplace smoothing $\alpha$.
-\item Estimation with Kneser-Ney smoothing \cite{}. 
+\item Estimation with Laplace smoothing ($\alpha$).
+\item Estimation with Kneser-Ney smoothing \cite{kneser1995improved}. 
 \end{enumerate}
 
 Use this distribution to calculate the perplexity of the development
-set with n-grams 2, 3, and 4.
-
-
-The formula for Kneser-Ney Smoothing is: 
+set with n-grams 2, 3, and 4. The final smoothing technique is
+discussed in the lecture notes. Report the results for in terms of
+perplexity on the development set.
 
 \subsection{Neural Network Language Models (NNLMs)}
 
@@ -221,11 +226,23 @@ HW2. Similar tips apply here .
    renormalize the word embeddings to have a max $\ell2$ norm of 1
    after each epoch. We recommend this technique instead of other
    types of regularization.
+
  \end{itemize}
 
 \subsection{Neural Network Model with Noise Constrastive Estimation}
 
-Noise constrastive estimation.
+As a final step, retrain your model with NCE as described in the class notes 
+and the papers posted online (the work of \citet{mnih2013learning} is particularly clear).
+
+NCE will require using a slightly different setup than our neural
+network models so far.  The base of the model will be identical.
+However instead of using a standard softmax and criterion you will
+need to manually calculate the loss and the gradient with respect to
+the model, by sampling. You can then use the standard Torch modules to
+backprop this gradient through the model. To use the learned model,
+you can either add a softmax to get a full distribution, or simply 
+limit the model to the 50 words in the set. 
+ 
 
 \subsection{Word Embeddings}
 
@@ -249,13 +266,15 @@ additional experiments on these data sets. We will leave this aspect
 open-ended, but suggestion include:
 
 \begin{itemize}
-\item Including additional features in the model. For instance, capitalization or suffixes.
-\item Experimenting with different architectures (Replicate the different setups in \cite{}).
+\item Include additional features in the input of the model, for instance, capitalization or suffixes. Does this have any effect on the perplexity of the system. 
+\item Experiment with different architectures (Replicate the different setups in \cite{}).
 \item Modern language modeling experiments are often run on a GPU, an
   architecture particularly well-suited for computing large partition
   functions. If you have access to a NVidia GPU, we encourage you to
   tree these experiments. Follow the instructions on the Torch website for running on this 
   system. It is usually as easy as calling :cuda on your model.
+\item Experiment with ``babbling'', i.e. sample from the distribution proposed by the model and 
+feed it back in. What does the generated text look like? What issues does it have? 
 \end{itemize}
 
 \section{Report and Submission}
