@@ -1,44 +1,7 @@
+
 require('hdf5')
 
-f = hdf5.open("SST2.hdf5", "r")
-X_train = f:read("train_input"):all()
-Y_train = f:read("train_output"):all()
-X_valid = f:read("valid_input"):all()
-Y_valid = f:read("valid_output"):all()
-X_test = f:read("test_input"):all()
-
-nclasses = f:read('nclasses'):all():long()[1]
-nfeatures = f:read('nfeatures'):all():long()[1]
-
-f:close()
-
-function createDocWordMatrix(vocab, max_sent_len, sparseMatrix)
-    docword = torch.zeros(sparseMatrix:size(1), vocab)
-    for i=1,sparseMatrix:size(1) do
-        for j=1, max_sent_len do
-            local idx = (sparseMatrix[i][j])
-            if idx ~= 0 then
-                docword[i][idx] = 1 + docword[i][idx]
-            end
-        end
-    end
-    return docword
-end
-
-function onehotencode(classes, target)
-    onehot = torch.zeros(target:size(1), classes)
-    for i=1,target:size(1) do
-        onehot[i][target[i]] = 1
-    end
-    return onehot
-end
-
-X_train = createDocWordMatrix(nfeatures, 53, X_train)
-Y_train = onehotencode(nclasses, Y_train)
-X_test = createDocWordMatrix(nfeatures, 53, X_valid)
-Y_test = onehotencode(nclasses, Y_valid)
-
-function counts(X,Y)
+function NB(X,Y, alpha)
     --calculate log posterior
     local cc = torch.zeros(1, Y:size(2))
     local fc = torch.zeros(Y:size(2), X:size(2))
@@ -49,7 +12,7 @@ function counts(X,Y)
     
     --THIS IS ALPHA
     --smoothing
-    fc:add(5)
+    fc:add(alpha)
     local scc = fc:sum(2)
     
     fc:log()
@@ -75,20 +38,55 @@ end
 function predict_score()
     local c = 0
     for i=1,indices_pred:size(1) do
-
         if indices_pred[i][1] == indices_true[i][1] then
             c = c + 1
-        
         end
-    
     end
     return c/Y_valid:size()[1]
 end
 
-lp, clp = counts(X_train, Y_train)
+function createDocWordMatrix(vocab, max_sent_len, sparseMatrix)
+    docword = torch.zeros(sparseMatrix:size(1), vocab)
+    for i=1,sparseMatrix:size(1) do
+        for j=1, max_sent_len do
+            local idx = (sparseMatrix[i][j])
+            if idx ~= 0 then
+                docword[i][idx] = 1 --+ docword[i][idx]
+            end
+        end
+    end
+    return docword
+end
 
+function onehotencode(classes, target)
+    onehot = torch.zeros(target:size(1), classes)
+    for i=1,target:size(1) do
+        onehot[i][target[i]] = 1
+    end
+    return onehot
+end
+
+f = hdf5.open("SST2.hdf5", "r")
+X_train = f:read("train_input"):all()
+Y_train = f:read("train_output"):all()
+X_valid = f:read("valid_input"):all()
+Y_valid = f:read("valid_output"):all()
+X_test = f:read("test_input"):all()
+
+nclasses = f:read('nclasses'):all():long()[1]
+nfeatures = f:read('nfeatures'):all():long()[1]
+
+f:close()
+
+X_train = createDocWordMatrix(nfeatures, 53, X_train)
+Y_train = onehotencode(nclasses, Y_train)
+X_test = createDocWordMatrix(nfeatures, 53, X_valid)
+Y_test = onehotencode(nclasses, Y_valid)
+
+alpha = 1
+lp, clp = NB(X_train, Y_train, alpha)
 predictions = predict(X_test, lp, clp)
 _, indices_pred = torch.max(predictions, 2)
 _, indices_true = torch.max(Y_test, 2)
-counts = predict_score()
-print(counts)
+score = predict_score()
+print(score)
