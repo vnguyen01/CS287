@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """Text Classification Preprocessing
 """
 
@@ -6,6 +8,7 @@ import h5py
 import argparse
 import sys
 import re
+import codecs
 
 
 def line_to_words(line, dataset):
@@ -30,7 +33,7 @@ def get_vocab(file_list, dataset=''):
     idx = 2
     for filename in file_list:
         if filename:
-            with open(filename, "r") as f:
+            with codecs.open(filename, "r", encoding="latin-1") as f:
                 for line in f:
                     words = line_to_words(line, dataset)
                     max_sent_len = max(max_sent_len, len(words))
@@ -48,7 +51,7 @@ def convert_data(data_name, word_to_idx, max_sent_len, dataset, start_padding=0)
     """
     features = []
     lbl = []
-    with open(data_name, 'r') as f:
+    with codecs.open(data_name, 'r', encoding="latin-1") as f:
         for line in f:
             words = line_to_words(line, dataset)
             y = int(line[0]) + 1
@@ -56,9 +59,9 @@ def convert_data(data_name, word_to_idx, max_sent_len, dataset, start_padding=0)
             sent = list(set(sent))
             # end padding
             if len(sent) < max_sent_len + start_padding:
-                sent.extend([1] * (max_sent_len + start_padding - len(sent)))
+                sent.extend([0] * (max_sent_len + start_padding - len(sent)))
             # start padding
-            sent = [1]*start_padding + sent
+            sent = [0]*start_padding + sent
             features.append(sent)
             lbl.append(y)
     return np.array(features, dtype=np.int32), np.array(lbl, dtype=np.int32)
@@ -106,7 +109,7 @@ FILE_PATHS = {"SST1": ("data/stsa.fine.phrases.train",
                        "data/TREC.test.all"),
               "SUBJ": ("data/subj.all", None, None),
               "MPQA": ("data/mpqa.all", None, None)}
-
+args = {}
 
 
 def main(arguments):
@@ -120,17 +123,12 @@ def main(arguments):
     dataset = args.dataset
     train, valid, test = FILE_PATHS[dataset]
 
-    
-
     # Features are just the words.
     max_sent_len, word_to_idx = get_vocab([train, valid, test], dataset)
 
     # Dataset name
     train_input, train_output = convert_data(train, word_to_idx, max_sent_len,
                                              dataset)
-    print train_input.shape
-    print train_output.shape
-
     if valid:
         valid_input, valid_output = convert_data(valid, word_to_idx, max_sent_len,
                                                  dataset)
@@ -155,8 +153,6 @@ def main(arguments):
         f['nfeatures'] = np.array([V], dtype=np.int32)
         f['nclasses'] = np.array([C], dtype=np.int32)
 
-args = {}
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
-    main(args)
