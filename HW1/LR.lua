@@ -1,3 +1,4 @@
+
 require("hdf5")
 
 function logsumexp(z)
@@ -20,7 +21,7 @@ end
 
 neval=0
 
-function loss_minimization(W, X, Y)
+function loss_minimization(W, X, Y, lambda)
     W = W:reshape(Y:size(2), X:size(2)+1)
     --intercept
     local b = W:sub(1, W:size(1), W:size(2),W:size(2)):t()
@@ -37,7 +38,7 @@ function loss_minimization(W, X, Y)
     --L1 regularization
     --torch.sum(W) --put that above return 
     --Cross Entropy Loss
-    local loss = (torch.sum(torch.cmul(Y,z))*-1) + 0.5 * torch.sum(W)--torch.dot(norm, norm)
+    local loss = (torch.sum(torch.cmul(Y,z))*-1) + 0.5 * lambda * torch.sum(W)--torch.dot(norm, norm)
     return loss, z:exp(), W
 end
 
@@ -54,10 +55,10 @@ function minibatch(X, Y, bsize)
     return X_batch, Y_batch
 end
 
-function grad_loss_minimization(W, X, Y, bsize)
+function grad_loss_minimization(W, X, Y, bsize, lambda)
     --do minibatch sampling
     local X_batch, Y_batch = minibatch(X, Y, bsize)
-    local loss, mu, W = loss_minimization(W, X_batch, Y_batch)
+    local loss, mu, W = loss_minimization(W, X_batch, Y_batch, lambda)
     
     --calculate the gradient
     --g(W) = \sum (\mu_i - y_i) \times x_i
@@ -72,7 +73,7 @@ function grad_loss_minimization(W, X, Y, bsize)
     return grad:reshape(grad:size(1)*grad:size(2), 1)
 end
 
-function fit(X, Y, bsize, rate, iter)
+function fit(X, Y, bsize, rate, iter, lambda)
     --Weight matrix must be passed in as vector
     local W = torch.zeros(Y:size(2) * (X:size(2)+1), 1)
 
@@ -91,7 +92,7 @@ function fit(X, Y, bsize, rate, iter)
         --quicker and smoother than sgd
         --https://github.com/torch/optim/blob/master/adam.lua
         --http://arxiv.org/pdf/1412.6980.pdf
-        local grad = grad_loss_minimization(W, X, Y, bsize)
+        local grad = grad_loss_minimization(W, X, Y, bsize, lambda)
         m = m or W.new(grad:size()):zero()
         v = v or W.new(grad:size()):zero()
         denom = denom or W.new(grad:size()):zero()
@@ -192,7 +193,14 @@ X_test = createDocWordMatrix(nfeatures, 53, X_valid)
 Y_test = onehotencode(nclasses, Y_valid)
 
 start_time = os.time()
-W, b = fit(X_train, Y_train, 10000, 0.01, 100)
+--input params
+    --input features
+    --target one-hot encodes
+    --batch size
+    --learning rate
+    --max iterations
+    --lambda
+W, b = fit(X_train, Y_train, 1000, 0.01, 100, 1)
 end_time = os.time()
 print(end_time - start_time)
 
@@ -201,3 +209,5 @@ _, Y_pred = torch.max(Y_pred, 2)
 _,Y_true = torch.max(Y_train, 2)
 acc_score = predict_score(Y_pred, Y_true)
 print(acc_score)
+
+--write2file("LRL2_SST2.csv", Y_pred)
