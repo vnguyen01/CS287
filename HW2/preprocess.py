@@ -34,6 +34,7 @@ def main(arguments):
     train, valid, test, tag_dict = FILE_PATHS[dataset]
 
     filename = args.dataset + '.hdf5'
+    print filename
     with h5py.File(filename, "w") as f:
         f['train_input'] = train_input
         f['train_output'] = train_output
