@@ -10,7 +10,8 @@
 \maketitle{}
 
 \begin{center}
-  \textbf{Due:} Monday, March 7th, 11:59 pm 
+  \textbf{Due:} Monday, March 7th, 11:59 pm \\
+  (We highly recommend doing this assignment with a partner.)
 \end{center}
 
 
@@ -19,7 +20,7 @@ first-step for many natural language applications. In this assignment you
 will implement several count-based multinomial language models, an
 influential neural network based language model from the work of
 \citet{DBLP:journals/jmlr/BengioDVJ03}, and an extension to this
-language model noise contrastive estimation which we discussed in
+language model which learns using noise contrastive estimation as we discussed in
 class.
 
 
@@ -74,7 +75,7 @@ prediction. In particular you will be responsible for,
 
 \begin{itemize}
 \item Mapping the words in the data set to indexes.
-\item Pre-construct the n-gram windows before word.
+\item Pre-constructing the n-gram windows before each word.
 \end{itemize}
 
 Your preprocessing code should include an argument for the size of 
@@ -82,7 +83,7 @@ the n-gram that is used.
 
 \textbf{Important note:} the boundary cases for language modeling are
 a bit tricky. For each sentence, you must predict the end-of-sentence
-token represented as "\texttt{</s>}". Conversely you do not predict the
+token represented as "\texttt{</s>}". Conversely you do \textbf{not} predict the
 start-of-sentence token "\texttt{<s>}" but you do condition on it when
 predicting words at the beginning of the sentence. Therefore the
 number of words predicted is size of words in the file + number of
@@ -95,12 +96,6 @@ evaluation, discussed below, will be to give the full distribution
 over this missing word. Therefore when constructing your \texttt{test\_input}
 you should only output the context for these examples.
 
-\begin{quote}
-  train\_input, train\_output,
-  valid\_input,
-  valid\_output
-  test\_input, nwords
-\end{quote}
 
 \section{Code Setup}
 
@@ -111,31 +106,36 @@ standard Torch library.
 \subsection{Prediction and Evaluation}
 
 Be sure you are able to read and output the text data and that you
-understand the format.  Also be sure you are able output your
+understand the format.  Also be sure you are able to output your
 classification results on the test data as a text file. Check that you
-can upload these to the Kaggle. 
+can upload these to Kaggle. 
 
 The Kaggle submission for this assignment takes on a more complicated form. 
-For each position in the test data, we would like you to output a complete 
+For each marked position in the test data, we would like you to output a complete 
 distribution over a given set of words.
 
-For instance the first challenges is given the context C, give the distribution
-over the words listed above. 
+
+For instance, given the following test context C 
 
 \begin{lstlisting}
-Q my outright recovery operations grew combustion enthusiastic deadly california breathing broadcasters unable tenders practical jacob lying premiere longer vermont-slauson seemingly tumbled shipment monday expenditure s miners multiples art combat increasingly kasparov lab questionable bold promotion regularly texans eighth gaf sinking N of excitement window municipalities poverty soliciting pressure neighboring accommodate
 C no it was n't black _1_
 \end{lstlisting}
 
+you need to give a distribution over the candidate words in a provided set Q
+
+\begin{lstlisting}
+Q my outright recovery operations grew combustion enthusiastic deadly california breathing broadcasters unable tenders practical jacob lying premiere longer vermont-slauson seemingly tumbled shipment monday expenditure s miners multiples art combat increasingly kasparov lab questionable bold promotion regularly texans eighth gaf sinking N of excitement window municipalities poverty soliciting pressure neighboring accommodate
+\end{lstlisting}
+
 In your output file you should give the distribution $p(w_6 | w_1, \ldots, w_5)$ renormalized
-over the 50 word candidate set given above. It will look something like this.
+over the 50 word candidate set $\mcQ$ given above. It will look something like this.
 
 \begin{verbatim}
 ID,Class1,Class2,Class3,...
 1,0.2,0.001,0.0012,...
 \end{verbatim}
 
-\noindent Here \texttt{Class1} refers to the first word in \texttt{words.dict}, \texttt{Class2} to the second, etc.
+\noindent Here \texttt{Class1} refers to the first word in $\mcQ$, \texttt{Class2} to the second, etc.
 
 Worst-case if you are not able to scale the full language model, you
 can still submit to Kaggle using reduced vocabulary training. If you do this, 
@@ -162,7 +162,7 @@ responsibility to convince us that the model is correctly training.
 
 \section{Models}
 
-For this assignment you will implement the three models. We will warm
+For this assignment you will implement three models. We will warm
 up with a simple count-based language model, then we will add
 smoothing, and finally we will move on to the full neural network
 model from \citet{DBLP:journals/jmlr/BengioDVJ03} and finally implement noise contrastive estimation \citep{gutmann2010noise}.
@@ -170,20 +170,21 @@ model from \citet{DBLP:journals/jmlr/BengioDVJ03} and finally implement noise co
 \subsection{Count-Based Language Model}
 
 To start, modify your code from HW1 to implement a simple of
-n-gram multinomial estimate of $p(w_i | w_{i-n+1}, \ldots w_{i-1})$. 
+n-gram multinomial estimates of $p(w_i | w_{i-n+1}, \ldots w_{i-1})$. 
 Use three different strategies to estimate this distribution,
 
 \begin{enumerate}
 \item Simple maximum likelihood estimation. 
 \item Estimation with Laplace smoothing ($\alpha$).
 \item Estimation with Witten-Bell.
-\item Estimation with (Modified )Kneser-Ney smoothing . 
+\item Extension: Estimation with Kneser-Ney smoothing . 
 \end{enumerate}
 
 Use this distribution to calculate the perplexity of the development
 set with n-grams 2 and 3. The final smoothing technique is
-discussed in the lecture notes. Report the results for in terms of
+discussed in the lecture notes. Report the results in terms of
 perplexity on the development set.
+
 
 \subsection{Neural Network Language Models (NNLMs)}
 
@@ -204,7 +205,7 @@ Note the following correspondences,
     \midrule 
     sparse $\boldx \boldW$ & nn.LookupTable \\ 
     $\log \mathrm{softmax}$ & nn.LogSoftMax \\ 
-    $\tanh $ & nn.TanH \\ 
+    $\tanh $ & nn.Tanh \\ 
     $L_{cross-entropy}()$ & nn.ClassNLL \\ 
     dense $\boldx \boldW + \boldb$ & nn.Linear \\ 
     \bottomrule
@@ -237,7 +238,7 @@ and the papers posted online (the work of \citet{mnih2013learning} is particular
 
 NCE will require using a slightly different setup than our neural
 network models so far.  The base of the model will be identical.
-However instead of using a standard softmax and criterion you will
+However instead of using a standard softmax followed by a criterion you will
 need to manually calculate the loss and the gradient with respect to
 the model, by sampling. You can then use the standard Torch modules to
 backprop this gradient through the model. To use the learned model,
@@ -245,7 +246,7 @@ you can either add a softmax to get a full distribution, or simply
 limit the model to the 50 words in the set. 
  
 
-\subsection{Word Embeddings}
+\subsection{Extension: Word Embeddings}
 
 Once you have trained your model, you can examine the word embeddings that the model 
 produces by exporting the parameters of your \texttt{nn.LookupTable}. Write out these 
@@ -267,6 +268,7 @@ additional experiments on these data sets. We will leave this aspect
 open-ended, but suggestion include:
 
 \begin{itemize}
+\item Do one of the extensions indicated above.
 \item Include additional features in the input of the model, for instance, capitalization or suffixes. Does this have any effect on the perplexity of the system. 
 \item Experiment with different architectures (Replicate the different setups in \cite{DBLP:journals/jmlr/BengioDVJ03}).
 \item Modern language modeling experiments are often run on a GPU, an
