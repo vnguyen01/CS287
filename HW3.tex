@@ -176,11 +176,12 @@ Use three different strategies to estimate this distribution,
 \begin{enumerate}
 \item Simple maximum likelihood estimation. 
 \item Estimation with Laplace smoothing ($\alpha$).
-\item Estimation with Kneser-Ney smoothing \cite{kneser1995improved}. 
+\item Estimation with Witten-Bell.
+\item Estimation with (Modified )Kneser-Ney smoothing . 
 \end{enumerate}
 
 Use this distribution to calculate the perplexity of the development
-set with n-grams 2, 3, and 4. The final smoothing technique is
+set with n-grams 2 and 3. The final smoothing technique is
 discussed in the lecture notes. Report the results for in terms of
 perplexity on the development set.
 
@@ -267,7 +268,7 @@ open-ended, but suggestion include:
 
 \begin{itemize}
 \item Include additional features in the input of the model, for instance, capitalization or suffixes. Does this have any effect on the perplexity of the system. 
-\item Experiment with different architectures (Replicate the different setups in \cite{}).
+\item Experiment with different architectures (Replicate the different setups in \cite{DBLP:journals/jmlr/BengioDVJ03}).
 \item Modern language modeling experiments are often run on a GPU, an
   architecture particularly well-suited for computing large partition
   functions. If you have access to a NVidia GPU, we encourage you to
