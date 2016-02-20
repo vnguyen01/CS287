@@ -113,7 +113,7 @@ def generate_windows(cleaned, vocab, d_win, padding, outputs):
     else:
         return X_train.astype(int)
 
-FILE_PATHS = {"standard": ("data/train.tags.txt",
+FILE_PATHS = {"PTB": ("data/train.tags.txt",
                        "data/dev.tags.txt",
                        "data/test.tags.txt",
                        "data/tags.dict")}
