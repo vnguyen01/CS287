@@ -30,11 +30,20 @@ def main(arguments):
     parser.add_argument('dataset', help="Data set",
                         type=str)
     args = parser.parse_args(arguments)
+
     dataset = args.dataset
+
     train, valid, test, tag_dict = FILE_PATHS[dataset]
 
+    train_input, train_output = convert_data(train, dataset)
+
+    valid_input, valid_output = convert_data(valid, dataset)
+
+    test_input, _ = convert_data(test, dataset)
+
+
     filename = args.dataset + '.hdf5'
-    print filename
+    
     with h5py.File(filename, "w") as f:
         f['train_input'] = train_input
         f['train_output'] = train_output
