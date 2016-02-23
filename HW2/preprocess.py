@@ -101,10 +101,14 @@ def generate_windows(cleaned, vocab, d_win, padding, outputs):
     Y_train = np.zeros(num_words)
     count = 0
     
+    odd_even = 0
+    if d_win%2==1:
+        odd_even = 1
+
     for i in range(0, len(cleaned)):
         if cleaned[i,0] != 0:
-            X_train[count][:d_win] = map(int,cleaned[i-d_win/2:i+d_win/2+1, 0])
-            X_train[count][d_win:] = map(int,cleaned[i-d_win/2:i+d_win/2+1, 1])
+            X_train[count][:d_win] = map(int,cleaned[i-d_win/2:i+d_win/2+odd_even, 0])
+            X_train[count][d_win:] = map(int,cleaned[i-d_win/2:i+d_win/2+odd_even, 1])
             if outputs == True:
                 Y_train[count] = np.int(cleaned[i,2])
             count = count + 1
