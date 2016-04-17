@@ -1,0 +1,602 @@
+Out[18]:
+loss for iteration 100 is 1.7737913347634	
+Out[18]:
+loss for iteration 200 is 1.6705766983727	
+Out[18]:
+loss for iteration 300 is 1.6790962851671	
+Out[18]:
+loss for iteration 400 is 1.6454407593526	
+Out[18]:
+loss for iteration 500 is 1.6006162567771	
+Out[18]:
+loss for iteration 600 is 1.6334849524866	
+Out[18]:
+loss for iteration 700 is 1.5487282089219	
+Out[18]:
+loss for iteration 800 is 1.5257626533685	
+Out[18]:
+loss for iteration 900 is 1.5068810451291	
+Out[18]:
+loss for iteration 1000 is 1.4912920929047	
+Out[18]:
+loss for iteration 1100 is 1.4720253103304	
+Out[18]:
+loss for iteration 1200 is 1.4049043239721	
+Out[18]:
+loss for iteration 1300 is 1.4362478669228	
+Out[18]:
+loss for iteration 1400 is 1.3963563674124	
+Out[18]:
+loss for iteration 1500 is 1.3802900498221	
+Out[18]:
+loss for iteration 1600 is 1.4355338607517	
+Out[18]:
+loss for iteration 1700 is 1.3843365909242	
+Out[18]:
+loss for iteration 1800 is 1.3565250347048	
+Out[18]:
+loss for iteration 1900 is 1.3081000470828	
+Out[18]:
+loss for iteration 2000 is 1.3212917666376	
+Out[18]:
+loss for iteration 2100 is 1.3489898977663	
+Out[18]:
+loss for iteration 2200 is 1.41527429173	
+Out[18]:
+loss for iteration 2300 is 1.2396498720369	
+Out[18]:
+loss for iteration 2400 is 1.2430777530128	
+Out[18]:
+loss for iteration 2500 is 1.2923404882455	
+Out[18]:
+loss for iteration 2600 is 1.2971329471668	
+Out[18]:
+loss for iteration 2700 is 1.2999695544688	
+Out[18]:
+loss for iteration 2800 is 1.2336264175853	
+Out[18]:
+loss for iteration 2900 is 1.198119918136	
+Out[18]:
+loss for iteration 3000 is 1.180103651637	
+Out[18]:
+loss for iteration 3100 is 1.2144025003073	
+Out[18]:
+loss for iteration 3200 is 1.2195295195365	
+Out[18]:
+loss for iteration 3300 is 1.2401039718208	
+Out[18]:
+loss for iteration 3400 is 1.2077107095742	
+Out[18]:
+loss for iteration 3500 is 1.270575496891	
+Out[18]:
+loss for iteration 3600 is 1.1649048484148	
+Out[18]:
+loss for iteration 3700 is 1.1096524941121	
+Out[18]:
+loss for iteration 3800 is 1.1184821578585	
+Out[18]:
+loss for iteration 3900 is 1.1251521351234	
+Out[18]:
+loss for iteration 4000 is 1.153713405917	
+Out[18]:
+loss for iteration 4100 is 1.2288247828121	
+Out[18]:
+loss for iteration 4200 is 1.1282900265478	
+Out[18]:
+loss for iteration 4300 is 1.2323584553074	
+Out[18]:
+loss for iteration 4400 is 1.1675339790964	
+Out[18]:
+loss for iteration 4500 is 1.0975883246473	
+Out[18]:
+loss for iteration 4600 is 1.1148759781128	
+Out[18]:
+loss for iteration 4700 is 1.1704760632748	
+Out[18]:
+loss for iteration 4800 is 1.1777164547899	
+Out[18]:
+loss for iteration 4900 is 1.1248231387921	
+Out[18]:
+loss for iteration 5000 is 1.083408553452	
+Out[18]:
+loss for iteration 5100 is 1.1467207364312	
+Out[18]:
+loss for iteration 5200 is 1.1541693549282	
+Out[18]:
+loss for iteration 5300 is 1.1701765836461	
+Out[18]:
+loss for iteration 5400 is 1.2001927769013	
+Out[18]:
+loss for iteration 5500 is 1.195265219471	
+Out[18]:
+loss for iteration 5600 is 1.1257267378636	
+Out[18]:
+loss for iteration 5700 is 1.2042836600378	
+Out[18]:
+loss for iteration 5800 is 1.1033065779186	
+Out[18]:
+loss for iteration 5900 is 1.1727501440805	
+Out[18]:
+loss for iteration 6000 is 1.1903096115453	
+Out[18]:
+loss for iteration 6100 is 1.0760082717779	
+Out[18]:
+loss for iteration 6200 is 1.0865701044705	
+Out[18]:
+loss for iteration 6300 is 1.1073557381115	
+Out[18]:
+loss for iteration 6400 is 1.0993522146397	
+Out[18]:
+loss for iteration 6500 is 1.1473128609244	
+Out[18]:
+loss for iteration 6600 is 1.0565632063613	
+Out[18]:
+loss for iteration 6700 is 1.0805205588463	
+Out[18]:
+loss for iteration 6800 is 1.0810055310692	
+Out[18]:
+loss for iteration 6900 is 1.0518176891043	
+Out[18]:
+loss for iteration 7000 is 1.0751210500742	
+Out[18]:
+loss for iteration 7100 is 1.0418289043452	
+Out[18]:
+loss for iteration 7200 is 1.0639998337402	
+Out[18]:
+loss for iteration 7300 is 1.1005766530103	
+Out[18]:
+loss for iteration 7400 is 1.1492905146391	
+Out[18]:
+loss for iteration 7500 is 1.1532174614175	
+Out[18]:
+loss for iteration 7600 is 1.0972752204064	
+Out[18]:
+loss for iteration 7700 is 1.1204192540033	
+Out[18]:
+loss for iteration 7800 is 1.0751367577828	
+Out[18]:
+loss for iteration 7900 is 1.0668843991511	
+Out[18]:
+loss for iteration 8000 is 1.0583721916609	
+Out[18]:
+loss for iteration 8100 is 1.0664511726808	
+Out[18]:
+loss for iteration 8200 is 1.1473427733602	
+Out[18]:
+loss for iteration 8300 is 1.0670783220634	
+Out[18]:
+loss for iteration 8400 is 1.1360092056398	
+Out[18]:
+loss for iteration 8500 is 1.0890802146688	
+Out[18]:
+loss for iteration 8600 is 1.076697650418	
+Out[18]:
+loss for iteration 8700 is 1.0326303297098	
+Out[18]:
+loss for iteration 8800 is 1.03458563496	
+Out[18]:
+loss for iteration 8900 is 1.1012356211589	
+Out[18]:
+loss for iteration 9000 is 1.0458877744546	
+Out[18]:
+loss for iteration 9100 is 1.0755097009218	
+Out[18]:
+loss for iteration 9200 is 1.1289665973369	
+Out[18]:
+loss for iteration 9300 is 1.039262656848	
+Out[18]:
+loss for iteration 9400 is 0.96404015956213	
+Out[18]:
+loss for iteration 9500 is 1.0765222096265	
+Out[18]:
+loss for iteration 9600 is 1.0922061791579	
+Out[18]:
+loss for iteration 9700 is 1.0966168371512	
+Out[18]:
+loss for iteration 9800 is 1.0764521013586	
+Out[18]:
+loss for iteration 9900 is 1.1357497597851	
+Out[18]:
+loss for iteration 10000 is 1.0348781149584	
+Out[18]:
+loss for iteration 10100 is 1.0249095678845	
+Out[18]:
+loss for iteration 10200 is 1.0696028719926	
+Out[18]:
+loss for iteration 10300 is 1.0456098831509	
+Out[18]:
+loss for iteration 10400 is 0.98481983556905	
+Out[18]:
+loss for iteration 10500 is 0.96356655257056	
+Out[18]:
+loss for iteration 10600 is 0.88353153359657	
+Out[18]:
+loss for iteration 10700 is 1.0816783434879	
+Out[18]:
+loss for iteration 10800 is 1.0244914514029	
+Out[18]:
+loss for iteration 10900 is 1.0938996292186	
+Out[18]:
+loss for iteration 11000 is 1.0084012520055	
+Out[18]:
+loss for iteration 11100 is 0.97985243189916	
+Out[18]:
+loss for iteration 11200 is 1.0026522545728	
+Out[18]:
+loss for iteration 11300 is 0.96876445996208	
+Out[18]:
+loss for iteration 11400 is 1.0803319116731	
+Out[18]:
+loss for iteration 11500 is 1.0402872466984	
+Out[18]:
+loss for iteration 11600 is 1.0214927847269	
+Out[18]:
+loss for iteration 11700 is 1.0394814076789	
+Out[18]:
+loss for iteration 11800 is 1.0305585725423	
+Out[18]:
+loss for iteration 11900 is 0.99442302552657	
+Out[18]:
+loss for iteration 12000 is 1.008471777026	
+Out[18]:
+loss for iteration 12100 is 0.96896632191688	
+Out[18]:
+loss for iteration 12200 is 0.99735873435224	
+Out[18]:
+loss for iteration 12300 is 1.0678136965575	
+Out[18]:
+loss for iteration 12400 is 1.0924749923514	
+Out[18]:
+loss for iteration 12500 is 1.1085797147214	
+Out[18]:
+loss for iteration 12600 is 1.0056642601521	
+Out[18]:
+loss for iteration 12700 is 0.98141088553123	
+Out[18]:
+loss for iteration 12800 is 0.99607599720042	
+Out[18]:
+loss for iteration 12900 is 0.91937384488685	
+Out[18]:
+loss for iteration 13000 is 1.0670443508869	
+Out[18]:
+loss for iteration 13100 is 1.0387115537238	
+Out[18]:
+loss for iteration 13200 is 1.0463433949948	
+Out[18]:
+loss for iteration 13300 is 1.0800817135417	
+Out[18]:
+loss for iteration 13400 is 1.0252876317663	
+Out[18]:
+loss for iteration 13500 is 0.98883513051184	
+Out[18]:
+loss for iteration 13600 is 1.0325896358645	
+Out[18]:
+loss for iteration 13700 is 1.0133443214728	
+Out[18]:
+loss for iteration 13800 is 0.9807965246673	
+Out[18]:
+loss for iteration 13900 is 0.97659474780025	
+Out[18]:
+loss for iteration 14000 is 0.98360695337554	
+Out[18]:
+loss for iteration 14100 is 0.97600851860344	
+Out[18]:
+loss for iteration 14200 is 0.94165501696756	
+Out[18]:
+loss for iteration 14300 is 1.0224006520071	
+Out[18]:
+loss for iteration 14400 is 1.0183877629322	
+Out[18]:
+loss for iteration 14500 is 1.0293701188672	
+Out[18]:
+loss for iteration 14600 is 1.0375879747196	
+Out[18]:
+loss for iteration 14700 is 1.0040361175882	
+Out[18]:
+loss for iteration 14800 is 0.95278162394964	
+Out[18]:
+loss for iteration 14900 is 0.93712907480896	
+Out[18]:
+loss for iteration 15000 is 1.0063600653062	
+Out[18]:
+loss for iteration 15100 is 1.0879913973451	
+Out[18]:
+loss for iteration 15200 is 1.0079607903596	
+Out[18]:
+loss for iteration 15300 is 0.95082500185743	
+Out[18]:
+loss for iteration 15400 is 0.96793738640122	
+Out[18]:
+loss for iteration 15500 is 1.1073373440001	
+Out[18]:
+loss for iteration 15600 is 1.0291324234969	
+Out[18]:
+loss for iteration 15700 is 0.96681242532314	
+Out[18]:
+loss for iteration 15800 is 1.0293772407971	
+Out[18]:
+loss for iteration 15900 is 0.94997778324749	
+Out[18]:
+loss for iteration 16000 is 0.97870794200163	
+Out[18]:
+loss for iteration 16100 is 0.95534387672579	
+Out[18]:
+loss for iteration 16200 is 0.99575149912413	
+Out[18]:
+loss for iteration 16300 is 0.9675686425687	
+Out[18]:
+loss for iteration 16400 is 0.94155930006153	
+Out[18]:
+loss for iteration 16500 is 0.96105292066841	
+Out[18]:
+loss for iteration 16600 is 1.0512277398498	
+Out[18]:
+loss for iteration 16700 is 0.95027049386598	
+Out[18]:
+loss for iteration 16800 is 1.0057366094541	
+Out[18]:
+loss for iteration 16900 is 0.95128895113438	
+Out[18]:
+loss for iteration 17000 is 1.0137763930839	
+Out[18]:
+loss for iteration 17100 is 1.0223200673725	
+Out[18]:
+loss for iteration 17200 is 1.0058036411762	
+Out[18]:
+loss for iteration 17300 is 1.0276716576631	
+Out[18]:
+loss for iteration 17400 is 0.95889130674434	
+Out[18]:
+loss for iteration 17500 is 1.0666759196362	
+Out[18]:
+loss for iteration 17600 is 0.94628641060222	
+Out[18]:
+loss for iteration 17700 is 0.93001781478549	
+Out[18]:
+loss for iteration 17800 is 0.98794498283459	
+Out[18]:
+loss for iteration 17900 is 1.0009322768031	
+Out[18]:
+loss for iteration 18000 is 1.028758446387	
+Out[18]:
+loss for iteration 18100 is 0.90865068153989	
+Out[18]:
+loss for iteration 18200 is 0.99012915697659	
+Out[18]:
+loss for iteration 18300 is 0.95104047792738	
+Out[18]:
+loss for iteration 18400 is 0.986148059477	
+Out[18]:
+loss for iteration 18500 is 0.92835506371004	
+Out[18]:
+loss for iteration 18600 is 0.8833809629356	
+Out[18]:
+loss for iteration 18700 is 0.99769641281168	
+Out[18]:
+loss for iteration 18800 is 0.94865777272173	
+Out[18]:
+loss for iteration 18900 is 0.91377422798298	
+Out[18]:
+loss for iteration 19000 is 0.99199819839714	
+Out[18]:
+loss for iteration 19100 is 0.92616432284391	
+Out[18]:
+loss for iteration 19200 is 0.89306054937462	
+Out[18]:
+loss for iteration 19300 is 0.88543233690947	
+Out[18]:
+loss for iteration 19400 is 0.92431034001683	
+Out[18]:
+loss for iteration 19500 is 0.83973231056783	
+Out[18]:
+loss for iteration 19600 is 0.88145833127062	
+Out[18]:
+loss for iteration 19700 is 0.90066240440709	
+Out[18]:
+loss for iteration 19800 is 0.87835974230765	
+Out[18]:
+loss for iteration 19900 is 0.91769277187134	
+Out[18]:
+loss for iteration 20000 is 0.97007083408641	
+Out[18]:
+loss for iteration 20100 is 0.80778602229968	
+Out[18]:
+loss for iteration 20200 is 0.89600920447476	
+Out[18]:
+loss for iteration 20300 is 0.94578208665747	
+Out[18]:
+loss for iteration 20400 is 0.96251454921839	
+Out[18]:
+loss for iteration 20500 is 0.96317921697457	
+Out[18]:
+loss for iteration 20600 is 0.90177518342584	
+Out[18]:
+loss for iteration 20700 is 0.93526800363926	
+Out[18]:
+loss for iteration 20800 is 0.94979139886426	
+Out[18]:
+loss for iteration 20900 is 0.93792387041916	
+Out[18]:
+loss for iteration 21000 is 0.90184829674922	
+Out[18]:
+loss for iteration 21100 is 0.98583833603851	
+Out[18]:
+loss for iteration 21200 is 0.87114400524152	
+Out[18]:
+loss for iteration 21300 is 0.93681067696482	
+Out[18]:
+loss for iteration 21400 is 0.9658141337359	
+Out[18]:
+loss for iteration 21500 is 0.85308749259873	
+Out[18]:
+loss for iteration 21600 is 0.92320978612437	
+Out[18]:
+loss for iteration 21700 is 0.93050104435679	
+Out[18]:
+loss for iteration 21800 is 0.95392000765109	
+Out[18]:
+loss for iteration 21900 is 0.91233476088509	
+Out[18]:
+loss for iteration 22000 is 0.87117634725533	
+Out[18]:
+loss for iteration 22100 is 1.0041657411247	
+Out[18]:
+loss for iteration 22200 is 0.96181058603554	
+Out[18]:
+loss for iteration 22300 is 0.8878246566068	
+Out[18]:
+loss for iteration 22400 is 0.8121613911492	
+Out[18]:
+loss for iteration 22500 is 0.91570352294294	
+Out[18]:
+loss for iteration 22600 is 0.86308006374534	
+Out[18]:
+loss for iteration 22700 is 0.94753097398508	
+Out[18]:
+loss for iteration 22800 is 0.86535768310698	
+Out[18]:
+loss for iteration 22900 is 0.9923188586869	
+Out[18]:
+loss for iteration 23000 is 0.91142036573376	
+Out[18]:
+loss for iteration 23100 is 0.91401889250576	
+Out[18]:
+loss for iteration 23200 is 0.94420109560427	
+Out[18]:
+loss for iteration 23300 is 0.86732876986078	
+Out[18]:
+loss for iteration 23400 is 0.93167480668637	
+Out[18]:
+loss for iteration 23500 is 0.93621348245729	
+Out[18]:
+loss for iteration 23600 is 0.90214344869162	
+Out[18]:
+loss for iteration 23700 is 0.93536915484704	
+Out[18]:
+loss for iteration 23800 is 0.96659393680127	
+Out[18]:
+loss for iteration 23900 is 0.97515763313295	
+Out[18]:
+loss for iteration 24000 is 0.90851284372871	
+Out[18]:
+loss for iteration 24100 is 0.89797900508383	
+Out[18]:
+loss for iteration 24200 is 0.98868732137792	
+Out[18]:
+loss for iteration 24300 is 0.88659770469214	
+Out[18]:
+loss for iteration 24400 is 0.84604757335342	
+Out[18]:
+loss for iteration 24500 is 1.0406572273996	
+Out[18]:
+loss for iteration 24600 is 0.87200227777489	
+Out[18]:
+loss for iteration 24700 is 0.90406105973482	
+Out[18]:
+loss for iteration 24800 is 0.95607593147693	
+Out[18]:
+loss for iteration 24900 is 0.92181150591236	
+Out[18]:
+loss for iteration 25000 is 0.89535352278673	
+Out[18]:
+loss for iteration 25100 is 0.95368839566365	
+Out[18]:
+loss for iteration 25200 is 0.94424449590762	
+Out[18]:
+loss for iteration 25300 is 0.85163918998065	
+Out[18]:
+
+Out[18]:
+loss for iteration 25400 is 0.97836511809595	
+Out[18]:
+loss for iteration 25500 is 0.80668578404174	
+Out[18]:
+loss for iteration 25600 is 0.93034012049723	
+Out[18]:
+loss for iteration 25700 is 0.82692408956498	
+Out[18]:
+loss for iteration 25800 is 0.91117195006428	
+Out[18]:
+loss for iteration 25900 is 0.89325075326361	
+Out[18]:
+loss for iteration 26000 is 0.94604833894219	
+Out[18]:
+loss for iteration 26100 is 0.90492281108729	
+Out[18]:
+loss for iteration 26200 is 0.82599325231066	
+Out[18]:
+loss for iteration 26300 is 0.94412459157489	
+Out[18]:
+loss for iteration 26400 is 0.86529448943692	
+Out[18]:
+loss for iteration 26500 is 0.87495678249016	
+Out[18]:
+loss for iteration 26600 is 0.90020627382582	
+Out[18]:
+loss for iteration 26700 is 0.97998677783823	
+Out[18]:
+loss for iteration 26800 is 0.98396398578821	
+Out[18]:
+loss for iteration 26900 is 0.92366634182925	
+Out[18]:
+loss for iteration 27000 is 0.89055940654076	
+Out[18]:
+loss for iteration 27100 is 0.87182842270102	
+Out[18]:
+loss for iteration 27200 is 0.88135642419559	
+Out[18]:
+loss for iteration 27300 is 0.8920339327682	
+Out[18]:
+loss for iteration 27400 is 0.85434262315167	
+Out[18]:
+loss for iteration 27500 is 0.86637774319945	
+Out[18]:
+loss for iteration 27600 is 0.83189280901591	
+Out[18]:
+loss for iteration 27700 is 0.89408099262869	
+Out[18]:
+loss for iteration 27800 is 0.96549354697964	
+Out[18]:
+loss for iteration 27900 is 0.86187611489412	
+Out[18]:
+loss for iteration 28000 is 0.91266770747383	
+Out[18]:
+loss for iteration 28100 is 0.84356890062393	
+Out[18]:
+loss for iteration 28200 is 0.94263376259409	
+Out[18]:
+loss for iteration 28300 is 0.86675436320648	
+Out[18]:
+loss for iteration 28400 is 0.84709587274342	
+Out[18]:
+loss for iteration 28500 is 0.90308438894341	
+Out[18]:
+loss for iteration 28600 is 0.86023808965813	
+Out[18]:
+loss for iteration 28700 is 0.88311547018451	
+Out[18]:
+loss for iteration 28800 is 0.9562113691213	
+Out[18]:
+loss for iteration 28900 is 0.91676266275442	
+Out[18]:
+loss for iteration 29000 is 0.904333548335	
+Out[18]:
+loss for iteration 29100 is 0.8479785077792	
+Out[18]:
+loss for iteration 29200 is 0.86717849468744	
+Out[18]:
+loss for iteration 29300 is 0.85198380293134	
+Out[18]:
+loss for iteration 29400 is 0.90653151371164	
+Out[18]:
+loss for iteration 29500 is 0.94992671734783	
+Out[18]:
+loss for iteration 29600 is 0.84725359825922	
+Out[18]:
+loss for iteration 29700 is 0.83649747791084	
+Out[18]:
+loss for iteration 29800 is 0.8691604368955	
+Out[18]:
+loss for iteration 29900 is 0.91138985132878	
+Out[18]:
+loss for iteration 30000 is 0.89437644041032
